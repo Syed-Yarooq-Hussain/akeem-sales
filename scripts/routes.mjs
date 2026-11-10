@@ -1,0 +1,9 @@
+﻿import {chromium} from '@playwright/test';
+import {writeFile, readdir} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const browser=await chromium.launch({channel:'chrome',headless:true});const context=await browser.newContext({viewport:{width:390,height:844}});const page=await context.newPage();const results=[];const failures=[];
+const routes=['','about','expertise','expertise/sales-strategy','expertise/lead-generation','expertise/market-expansion','expertise/business-development','expertise/business-intelligence','industries','our-approach','insights','contact','privacy-policy'];
+for(const lang of ['en','de','fr','es']){for(const path of routes){const target=`http://127.0.0.1:3100/${lang}/${path}${path?'/':''}`;const response=await page.goto(target,{waitUntil:'domcontentloaded'});assert.equal(response.status(),200);const source=await response.text();assert(source.includes(`<html lang="${lang}"`));assert.equal(await page.locator('h1').count(),1,`${lang}/${path} heading`);if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))failures.push(`${lang}/${path} overflow`);results.push(`${lang}/${path}: OK`);}}
+await page.setViewportSize({width:1440,height:1000});await page.goto('http://127.0.0.1:3100/en/',{waitUntil:'networkidle'});await page.locator('img').evaluateAll(els=>els.forEach(e=>e.loading='eager'));await page.waitForFunction(()=>Array.from(document.images).every(e=>e.complete));await page.screenshot({path:'qa/home-desktop.png',fullPage:true});await page.screenshot({path:'qa/hero-desktop.png'});
+await page.setViewportSize({width:390,height:844});await page.screenshot({path:'qa/hero-mobile.png'});await page.screenshot({path:'qa/home-mobile.png',fullPage:true});await writeFile('qa/routes.json',JSON.stringify(results,null,2));console.log(`${results.length} localized pages: HTTP 200, server-rendered language, one h1, no mobile overflow.`);await browser.close();assert.deepEqual(failures,[]);
+
