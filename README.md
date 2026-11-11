@@ -1,42 +1,52 @@
-﻿# Black Meridian — The Meridian Atlas
+﻿# BLACK MERIDIAN — Commercial services website
 
-A multilingual Next.js website for Black Meridian Sales & Consulting Ltd.
+A production Next.js website for BLACK MERIDIAN Sales & Consulting Ltd. The November redesign retains the ivory, ink-navy and copper identity with bold typography, a lightweight illustrated meridian hero, a Services mega-menu, clear service detail pages and collaboration options.
 
 ## Run
 
 - `npm install`
-- `npm run dev` — development
-- `npm run build` — production static export in `out/`
-- `npm start` — local production preview at http://127.0.0.1:3100
-- `npm run qa` — Chrome browser tests against the running preview
+- `npm run dev` — development server
+- `npm run build` — static production export in `out/`
+- `npm start` — production preview at http://127.0.0.1:3100
+- `npm run qa` — responsive, navigation, form and accessibility checks against that preview (Chrome required)
 
-## Editing
+## Current content
 
-- `lib/en.ts`, `lib/de.ts`, `lib/fr.ts`, `lib/es.ts`: complete locale copy and service content.
-- `components/Site.tsx`: page sections and navigation.
-- `components/Navigator.tsx`: four-step enquiry flow.
-- `components/Art.tsx`: lightweight custom SVG atlas and illustrations.
-- `app/globals.css`: responsive design system.
-- `lib/content.ts`: routes, locales and WhatsApp destination.
+The client requested professional English. The main website now uses English throughout. Previous locale and expertise URLs continue to resolve, displaying the relevant English page with an English canonical URL; they are not advertised as translated pages. Original translation files remain available for a future translation pass.
 
-## Enquiries
+Five service categories contain all 31 supplied service groups:
 
-All WhatsApp links open `https://wa.me/491722187353`. The navigator validates selections and contact fields, then prepares a translated WhatsApp message. Visitors review and send it themselves. No message is sent automatically, and no form data is submitted to a website backend or stored persistently. Phone links use `tel:+491722187353`.
+- Online Sales: 6 groups
+- Offline Sales: 6 groups
+- Marketing & Advertising: 6 groups
+- Sales Support & Customer Services: 6 groups
+- Business Development & Consultancy: 7 groups
+
+The separately mentioned comprehensive service list has not yet been supplied. The current catalog covers every item in the client’s message; it must be reconciled with that additional list when received.
+
+Three collaboration models: Individual Services, Monthly Management, and Outsourced Departments. Service and model links preselect the enquiry form. The contact flow prepares a message to `https://wa.me/491722187353`; visitors review and send it themselves. No enquiry is sent automatically or stored in a website database. Telephone links use `tel:+491722187353`.
+
+## Edit
+
+- `lib/services.ts`: service catalog, complete descriptions, collaboration models, canonical pages and legacy mappings.
+- `components/ModernSite.tsx`: current page layouts, navigation and global sections.
+- `components/Navigator.tsx`: validated enquiry flow, service/model selection and WhatsApp handoff.
+- `app/modern.css`: responsive redesign styles.
+- `app/[[...path]]/page.tsx`: static routing and metadata.
+- `lib/en.ts`: shared form, sector and privacy text.
+
+The previous UI components remain as legacy source; routing renders `ModernSite`.
 
 ## Deployment
 
-The project exports static HTML for 13 pages in each of four locales, plus English aliases. Next.js can also be deployed on Vercel. No existing domain settings were changed. The current Sites project is recorded in `.openai/hosting.json`. Canonical origin is configured in `app/[[...path]]/page.tsx`, `app/sitemap.ts` and `app/robots.ts`; update these when the final domain is connected.
+Git root: `black-meridian` itself. Vercel project Root Directory must be blank / `./`, Framework Next.js, production branch `master`. `vercel.json` sets the framework and build command. Do not override Vercel Output Directory: Next.js static export is detected automatically.
 
-Before a public commercial launch, confirm the company’s registered address, registration details, legal representative, applicable legal notices and privacy details. Service descriptions and sector focus are editable proposals from the supplied brief. No testimonials, clients, revenue statistics or office locations are invented.
+Set `NEXT_PUBLIC_SITE_URL` to the final origin when connecting `sales.akeem-group.com`. Until then, canonical URLs use `https://blackmeridian-seven.vercel.app`. No existing DNS settings were changed. The original private Sites manifest is retained; this redesign is delivered through the connected GitHub/Vercel workflow.
 
-## Visual assets
+Confirm registered company address, registration details, legal representative and applicable legal notices before public commercial launch. No client logos, testimonials, revenue figures or office locations are invented.
 
-Self-hosted Cormorant Garamond and DM Sans via Fontsource. Locally downloaded sector photographs from Unsplash:
+## Assets and accessibility
 
-- Architecture: https://images.unsplash.com/photo-1486406146926-c627a92ad1ab
-- Technology: https://images.unsplash.com/photo-1485827404703-89b55fcc595e
-- Industry: https://images.unsplash.com/photo-1581092921461-eab62e97a780
-- Trade: https://images.unsplash.com/photo-1494412519320-aa613dfb7738
+Self-hosted DM Sans and Cormorant Garamond. The hero is an SVG illustration, not a raster screenshot or WebGL scene. Reduced-motion preferences are respected. The detail pages use text, anchor navigation and structured lists rather than per-service images.
 
-The atlas routes are conceptual illustration, not claimed business relationships. SVG replaces a heavy WebGL globe for the new editorial direction and reduced-motion support.
-
+`npm run qa` checks the homepage, all five service pages, overview, collaboration, about, contact, industries and privacy at four widths. It verifies 31 service entries, desktop/mobile navigation, keyboard dismissal, preselected enquiry values, required fields, WhatsApp payloads, runtime errors and axe scans. It never sends a WhatsApp message.

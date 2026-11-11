@@ -6,3 +6,4 @@ out/
 qa/
 scripts/refine.mjs
 scripts/diagnose.mjs
+scripts/modern-edit.mjs
