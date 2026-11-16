@@ -35,7 +35,15 @@
 ['Sales Partner Acquisition','Identify and approach potential distribution and sales partners for your business.'],
 ['Sales Team Recruitment & Management','Support recruitment, coordination and ongoing management of sales teams.'],
 ['Outsourced Sales & Marketing Departments','Take on the agreed responsibilities of a complete sales or marketing function, including operational delivery and management.']],deliver:'A practical growth plan supported by partnership development, team coordination and agreed operational delivery.',tags:['Growth strategy','Market entry','Partnerships','Team management']}
+,{slug:'talent-management-brand-partnerships',title:'Talent Management & Brand Partnerships',short:'Distinctive talent. Meaningful partnerships.',summary:'Talent positioning, brand collaborations and campaign coordination.',intro:'Bring talent and brands together around a shared purpose. We support talent positioning, identify relevant partnership opportunities and coordinate collaborations from the first conversation through to delivery.',items:[
+['Talent Management & Positioning','Define a clear professional profile, commercial priorities and a direction for relevant opportunities.'],
+['Brand Partnership Development','Identify suitable brands and talent, assess alignment and support partnership conversations.'],
+['Sponsorship & Collaboration Opportunities','Develop collaboration proposals around shared objectives, audiences and an agreed scope.'],
+['Commercial Negotiation Support','Coordinate discussions around responsibilities, deliverables, timelines and commercial terms.'],
+['Campaign & Activation Coordination','Connect talent, brand teams and creative partners to organise agreed campaign activity.'],
+['Ongoing Partnership Management','Manage communication, track agreed deliverables and review opportunities for continued collaboration.']],deliver:'A coordinated partnership process, from talent positioning and brand introductions to agreed campaign delivery.',tags:['Talent positioning','Brand partnerships','Sponsorships','Campaign coordination']}
 ];
+export const contactEmail = 'info@blackmeridian-global.com';
 export const collaborationModels=[
 {slug:'individual',title:'Individual Services',label:'One focused brief.',description:'Specialist delivery for a specific task, campaign or project.',examples:'Lead generation, social media marketing, direct sales or creative production.',scope:'A defined scope, clear deliverables and an agreed timeline.'},
 {slug:'monthly',title:'Monthly Management',label:'Consistent, ongoing support.',description:'Ongoing management of your sales, marketing, advertising or customer service activities.',examples:'A recurring programme with agreed responsibilities and a monthly management fee.',scope:'Regular coordination, delivery and progress reviews.'},

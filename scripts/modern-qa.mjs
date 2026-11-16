@@ -1,16 +1,16 @@
-﻿import {chromium} from '@playwright/test';
+import {chromium} from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
 await mkdir('qa',{recursive:true});const browser=await chromium.launch({channel:'chrome',headless:true});const context=await browser.newContext({viewport:{width:1440,height:1000}});const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));const results=[];const base='http://127.0.0.1:3100';
-const slugs=['online-sales','offline-sales','marketing-advertising','sales-support-customer-services','business-development-consultancy'];
+const slugs=['online-sales','offline-sales','marketing-advertising','sales-support-customer-services','business-development-consultancy','talent-management-brand-partnerships'];
 try{
 for(const route of ['','services',...slugs.map(s=>`services/${s}`),'how-we-work','about','contact','industries','privacy-policy']){
 const response=await page.goto(`${base}/en/${route}${route?'/':''}`,{waitUntil:'networkidle'});assert.equal(response.status(),200,route);assert.equal(await page.locator('h1').count(),1,route);assert.equal(await page.locator('html').getAttribute('lang'),'en');
 for(const width of [1440,768,390,320]){await page.setViewportSize({width,height:950});assert(!(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)),`${route} overflow at ${width}`);const tooWide=await page.locator('h1,h2,h3,.m-button,.m-text-link,.options label').evaluateAll(els=>els.filter(e=>{const r=e.getBoundingClientRect();return r.width>0&&(r.right>innerWidth+2||r.left < -2)}).map(e=>e.textContent));assert.deepEqual(tooWide,[],`${route} content overflow at ${width}`)}
 if(route.startsWith('services/')){const index=slugs.indexOf(route.split('/')[1]);assert.equal(await page.locator('.m-capabilities>article').count(),index===4?7:6);assert.equal(await page.locator('.m-detail-body img').count(),0);}
 results.push(`${route||'home'}: loaded, one heading, responsive at 4 widths`);await page.setViewportSize({width:1440,height:1000});}
-await page.goto(base+'/en/',{waitUntil:'networkidle'});await page.getByRole('button',{name:'Services',exact:true}).click();assert(await page.locator('#services-menu').isVisible());assert.equal(await page.locator('.m-mega-links>a').count(),5);await page.keyboard.press('Escape');assert(!(await page.locator('#services-menu').isVisible()));assert.equal(await page.getByRole('button',{name:'Services',exact:true}).evaluate(e=>e===document.activeElement),true);
+await page.goto(base+'/en/',{waitUntil:'networkidle'});await page.getByRole('button',{name:'Services',exact:true}).click();assert(await page.locator('#services-menu').isVisible());assert.equal(await page.locator('.m-mega-links>a').count(),6);await page.keyboard.press('Escape');assert(!(await page.locator('#services-menu').isVisible()));assert.equal(await page.getByRole('button',{name:'Services',exact:true}).evaluate(e=>e===document.activeElement),true);
 await page.screenshot({path:'qa/modern-home-desktop.png',fullPage:true});await page.screenshot({path:'qa/modern-hero-desktop.png'});
 await page.setViewportSize({width:390,height:844});await page.getByRole('button',{name:'Open navigation'}).click();assert(await page.locator('#mobile-navigation').isVisible());await page.locator('#mobile-navigation summary').click();assert(await page.locator('#mobile-navigation').getByRole('link',{name:'Online Sales',exact:true}).isVisible());await page.keyboard.press('Escape');assert(!(await page.locator('#mobile-navigation').isVisible()));await page.screenshot({path:'qa/modern-home-mobile.png',fullPage:true});await page.screenshot({path:'qa/modern-hero-mobile.png'});
 const homeAxe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(homeAxe.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})),[]);
