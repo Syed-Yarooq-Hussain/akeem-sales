@@ -12,7 +12,9 @@ A production Next.js website for BLACK MERIDIAN Sales & Consulting Ltd. The Nove
 
 ## Current content
 
-The client requested professional English. The main website now uses English throughout. Previous locale and expertise URLs continue to resolve, displaying the relevant English page with an English canonical URL; they are not advertised as translated pages. Original translation files remain available for a future translation pass.
+The website supports German, English, Turkish, Polish, Romanian, Albanian, Spanish, French, Greek, Ukrainian, Bulgarian and Italian. Every language has static page URLs, localized metadata and hreflang alternatives. The header selector preserves the current page, query and anchor. English remains the default for unprefixed URLs; legacy expertise paths resolve within the selected language.
+
+Translations are stored in `lib/locales/*.json`, generated from the public English copy through Google Translate at development time, with manually refined hero wording and German service terminology. No translation service is called by visitors. Translations are machine-assisted drafts and have not received native-speaker editorial review. `lib/locales/source.json` is the translation inventory; `node scripts/translate-locales.cjs` fills missing entries without overwriting existing edits. `node scripts/locales-qa.mjs` verifies all 12 languages in the production preview, including responsive layouts, metadata, switching, form handoffs and privacy text.
 
 Six service categories include the original 31 supplied service groups and the new talent and partnerships offering:
 
@@ -42,7 +44,11 @@ The previous UI components remain as legacy source; routing renders `ModernSite`
 
 Git root: `black-meridian` itself. Vercel project Root Directory must be blank / `./`, Framework Next.js, production branch `master`. `vercel.json` sets the framework and build command. Do not override Vercel Output Directory: Next.js static export is detected automatically.
 
-Set `NEXT_PUBLIC_SITE_URL` to the final origin when connecting `sales.akeem-group.com`. Until then, canonical URLs use `https://blackmeridian-seven.vercel.app`. No existing DNS settings were changed. The original private Sites manifest is retained; this redesign is delivered through the connected GitHub/Vercel workflow.
+The confirmed production origin is `https://www.blackmeridian-global.com`, centralized in `lib/seo.ts`. Canonical URLs, hreflang, robots.txt, sitemap, social metadata and structured data all use this domain. The original private Sites manifest is retained; delivery uses the connected GitHub/Vercel workflow.
+
+Google Search Console: add the URL-prefix property `https://www.blackmeridian-global.com/` and verify ownership. If using HTML verification, set the provided content token in the deployment environment as `GOOGLE_SITE_VERIFICATION`, then rebuild and deploy before clicking Verify. Alternatively use the DNS verification workflow for a domain property. After verification, submit `https://www.blackmeridian-global.com/sitemap.xml` and inspect the homepage or important service URLs. No Search Console submission or verified indexing is implied by deployment. Google decides indexing; sitemap discovery is not an inclusion guarantee. Empty Insights pages and the pre-launch privacy pages are intentionally noindex and omitted from the sitemap.
+
+Run `node scripts/seo-qa.mjs` after the production build to check all sitemap URLs against exported pages, canonical/hreflang tags, schema and crawl directives.
 
 Confirm registered company address, registration details, legal representative and applicable legal notices before public commercial launch. No client logos, testimonials, revenue figures or office locations are invented.
 

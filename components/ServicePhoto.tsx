@@ -1,3 +1,4 @@
+import {useLocale} from './LocaleProvider';
 import '@/app/imagery.css';
 
 const imagery: Record<string, {name:string;alt:string}> = {
@@ -10,7 +11,8 @@ const imagery: Record<string, {name:string;alt:string}> = {
 };
 
 export function EditorialPhoto({name,alt,className='',eager=false}:{name:string;alt:string;className?:string;eager?:boolean}){
-  return <img className={className} src={`/images/${name}-v1.webp`} srcSet={`/images/${name}-mobile-v1.webp ${name==='talent-campaign'?600:640}w, /images/${name}-v1.webp ${name==='talent-campaign'?1200:1440}w`} sizes={className==='m-service-photo'?'(max-width: 640px) 88vw, 42vw':'88vw'} width={1440} height={960} alt={alt} loading={eager?'eager':'lazy'} decoding="async"/>;
+  const {t}=useLocale();
+  return <img className={className} src={`/images/${name}-v1.webp`} srcSet={`/images/${name}-mobile-v1.webp ${name==='talent-campaign'?600:640}w, /images/${name}-v1.webp ${name==='talent-campaign'?1200:1440}w`} sizes={className==='m-service-photo'?'(max-width: 640px) 88vw, 42vw':'88vw'} width={1440} height={960} alt={t(alt)} loading={eager?'eager':'lazy'} decoding="async"/>;
 }
 
 export function ServicePhoto({slug,className=''}:{slug:string;className?:string}){

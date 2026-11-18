@@ -8,4 +8,6 @@ import '@fontsource/dm-sans/700.css';
 import '@fontsource/dm-sans/800.css';
 import '../globals.css';
 import '../modern.css';
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body>{children}</body></html>}
+import {localeFromPath} from '@/lib/i18n';
+import '../languages.css';
+export default async function RootLayout({children,params}:{children:React.ReactNode;params:Promise<{path?:string[]}>}){const lang=localeFromPath((await params).path);return <html lang={lang}><body>{children}</body></html>}

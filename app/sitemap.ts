@@ -1,3 +1,5 @@
-﻿import {canonicalPages} from '@/lib/services';
+import {canonicalPages} from '@/lib/services';
+import {locales} from '@/lib/i18n';
+import {pageUrl,languageAlternates,indexablePage} from '@/lib/seo';
 export const dynamic='force-static';
-export default function sitemap(){const origin=process.env.NEXT_PUBLIC_SITE_URL||'https://blackmeridian-seven.vercel.app';return canonicalPages.filter(p=>p!=='privacy-policy').map(p=>({url:`${origin}/en/${p}${p?'/':''}`}));}
+export default function sitemap(){return locales.flatMap(lang=>canonicalPages.filter(indexablePage).map(page=>({url:pageUrl(lang,page),alternates:{languages:languageAlternates(page)}})));}
